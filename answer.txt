@@ -1,0 +1,20 @@
+
+select * from security_journal sj 
+left join vlan vl on sj.vlan = vl.vlan_id 
+left join pc on pc.vlan_pc = vl.vlan_id 
+left join employees e on e.pc = pc.id
+left join applications a on a.source_pc = e.pc
+left join employee_report er on er.uid_employee = e.uid
+left join statuses s on s.id = e.status
+where sj.discovery_date = '2024-10-10' and sj.vulnerability_id = 'УБИ.041' 
+and a.application = 'Mozila Firefox'
+and s.status = 'Работает'
+and a.session_time = '17:25';
+
+select * from employees where name = 'Диана' and surname = 'Требияни'
+
+select * from statuses where status = 'В отпуске'
+
+Ответ: имя - Дмиртрий, Ip - 10.10.2.26
+Потому что его коллега Диана, которая по его утверждению была с ним, на самом делев отпуске
+
