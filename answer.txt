@@ -1,0 +1,35 @@
+-- На сайте баз данных угроз ФСТЭК узнаем, что угроза межсайтового скриптинга является УБИ.041
+select * from security_journal sj 
+where sj.vulnerability_id like '%041'
+and sj.discovery_date = '2024-10-10'; 
+-- Узнаем, что угроза была совершена по vlan=460
+
+-- Посмотрим информацию о всех работниках, у которых была сессия
+-- в Mozila Firefox в 17:25 с vlan=460 и статусом Работает
+select 
+concat(e.name, ' ', e.surname),
+s.status, 
+a.application, a.session_time, 
+pc.ip_address, pc.vlan_pc, 
+er.report 
+from employees e 
+join statuses s on e.status = s.id 
+join pc on e.pc = pc.id
+join applications a on a.source_pc = pc.id
+join employee_report er on e.uid = er.uid_employee
+where a.application = 'Mozila Firefox'
+and a.session_time = '17:25'
+and pc.vlan_pc = 460
+and s.status = 'Работает';
+-- Узнаем 3х подозреваемых: Дионисия Гурцких, Агафон Дурново, Дмитрий Лесных
+-- Прочитав алиби всех трех, посмотрим на Алиби Дмитрия: "Первую половину дня я занимался редактированием документации нашего отдела, а после обеда мы с Дианой Требияни собрались в переговорке и обсуждали функционал курса по Python, добавляли материалы на нашу шару"
+
+-- Смотрим алиби Дианы Требияни:
+select * from employee_report er
+join employees e on e.uid = er.uid_employee
+where e.name = 'Диана' and e.surname = 'Требияни';
+-- Получаем ее алиби: "Первую часть дня я писала код для обучающего курса по Python, а ближе к обеду мне позвонили из десткого сада моего сына, я отпросилась с работы, я забрала ребенка домой и открыла больничный"
+-- Это алиби говорит нам, что после обеда ее не было на рабочем месте, так что Дмитрий Лесных не мог бы после обеда быть в переговорке с Дианой Требияни
+
+-- Следовательно, наш виновный это:
+-- Дмитрий Лесных, ip = 10.10.2.26
