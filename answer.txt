@@ -1,0 +1,28 @@
+Имя преступника: Дмитрий
+IP адрес преступника: 10.10.2.26
+
+SQL запросы:
+
+select e.name, e.surname, pc.id as pc_id, pc.ip_address as pc_ip
+from security_journal as sj join pc on sj.vlan = pc.vlan_pc
+join applications as app on app.source_pc = pc.id join employees as e on e.pc = pc.id
+where sj.discovery_date = '2024-10-10' and sj.vulnerability_id = 'УБИ.041'
+and app.application = 'Mozila Firefox' and app.session_time = '17:25';
+
+select * from employee_report as er join employees as e on er.uid_employee = e.uid where e.pc in (19, 46, 54);
+
+select er.report from employee_report as er join employees as e on er.uid_employee = e.uid
+where e."name" = 'Август';
+
+select er.report from employee_report as er join employees as e on er.uid_employee = e.uid
+where e."name" = 'Алиса' and surname = 'Абрамович';
+
+select er.report from employee_report as er join employees as e on er.uid_employee = e.uid
+where e."name" = 'Натан';
+
+select er.report from employee_report as er join employees as e on er.uid_employee = e.uid where e."name" = 'Диана'
+and surname = 'Требияни';
+
+------------------------
+
+Проанализировав репорты сотрудников, алиби Дмитрия не сходилось, так как Диана Требияни, с которой он сидел в переговорке, после обеда отпросилась от работы и взяла больничный. Поэтому Дмитрий является преступником
