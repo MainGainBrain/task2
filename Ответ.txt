@@ -1,0 +1,14 @@
+select source_pc from applications a where session_time = '17:25'
+
+select * from employees e where status = 13 and pc in (47, 19, 46, 54, 43)
+
+select * from employee_report er 
+join employees e on e.uid = er.uid_employee
+where e.status = 13 and e.pc in (47, 19, 46, 54, 43)
+order by e."name" asc
+
+после этого нам выдало 4 строки, проверяем показания этих 4, если в показаниях указаны другие люди, сверяем их показания
+в показаниях Дмитрия Лесных было, что после обеда он был с Дианой Требияни, а Диана Требияни уехала в детский сад, за сыном и открыла больничный
+
+select ip_address from pc p join employees e on e.pc = p.id
+where e.name = 'Дмитрий' and e.surname = 'Лесных'
