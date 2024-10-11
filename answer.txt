@@ -1,0 +1,35 @@
+SELECT id, vulnerability_label, discovery_date, vlan, vulnerability_source, vulnerability_id
+FROM public.security_journal
+where vulnerability_id = 'УБИ.041' and discovery_date = '2024-10-10';
+
+(vlan = 460)
+
+
+
+
+
+SELECT *
+FROM 
+	(SELECT *
+	FROM 
+		(SELECT *
+		FROM 
+			(SELECT session_time , source_pc 
+			FROM public.applications
+			where application = 'Mozila Firefox' and session_time = '17:25') as s
+		join pc on pc.id = s.source_pc
+		where pc.vlan_pc = 460) as p
+	join employees on p.id = employees.pc) as e
+join employee_report on e.uid = employee_report.uid_employee;
+
+
+
+
+Вывелось 3 человека, проверим людей в их репортах
+Информация для Дмитрия Лесных является ложью, т.к. Диана утверждает иное
+Ниже запрос для проверки челоывека их репорта Дмитрия (Диана Требияни)
+
+SELECT report
+FROM employee_report 
+join employees on employees.uid = employee_report.uid_employee 
+where employees.surname = 'Требияни' and employees.name = 'Диана';
